@@ -1,1 +1,526 @@
+# 日期：2024-11-08
+# 版本：1.2
+# 说明：本份配置是以ruleset为主，而不是以geo系列为主，如果使用geo系列的可以不用往下看啦
+#      本份配置是以sukkaw_ruleset为主，也是以狐狐的思路进行编辑规则集的
+#      https://github.com/yyhhyyyyyy/selfproxy/blob/main/Mihomo/Mihomo.yaml
+
+# 参考：https://github.com/Rabbit-Spec/Clash/blob/Master/Yaml/Clash_Pro.yaml
+#       https://blog.skk.moe/post/i-have-my-unique-surge-setup
+#       https://blog.skk.moe/tags/DNS/
+#       https://wiki.metacubex.one/
+#       https://iyyh.net/archives/3c8e34c1-1493-48bb-9359-fb5f00853500
+# 感谢: 狐狐🦊，以及愿意耐心给予我帮助的各位
+
+
+
+# 允许局域网连接
+allow-lan: true
+
+# 规则模式
+mode: rule
+
+# 日志模式
+log-level: warning
+
+# 是否解析IPV6，如为false，则回应内容为AAAA的空解析
+ipv6: true
+
+# 启动 UDP
+udp: true
+
+# 外部控制端口
+external-controller: 0.0.0.0:80
+
+# 外部用户界面, 路径为 API 地址/ui
+external-ui: ui
+# external-ui-url: 'https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip'
+
+# API 的访问密钥
+secret: leishao
+
+# Meta 内核特性 https://wiki.metacubex.one/config/general
+# 统一延迟
+# 更换延迟计算方式,去除握手等额外延迟
+unified-delay: true
+
+# HTTP（S）和SOCKS代理混合端口
+mixed-port: 7890
+
+# SOCKS代理端口
+socks-port: 7891
+
+# HTTP（S）代理端口
+port: 7892
+
+# 透明代理端口
+redir-port: 0
+
+# 透明代理端口
+tproxy-port: 0
+
+# 绑定所有IP 地址，允许其他设备通过所有地址访问
+bind-address: "*"
+
+# 允许连接的IP地址段
+lan-allowed-ips:
+  - 0.0.0.0/0
+  - ::/0
+
+# 不允许连接的IP地址段
+lan-disallowed-ips: []
+
+# 认证配置 格式：＜用户>：＜密码>
+authentication: []
+
+# 允许跳过验证的IP段
+skip-auth-prefixes:
+  - 127.0.0.1/32
+
+
+# TCP 并发
+# 同时对所有ip进行连接，返回延迟最低的地址
+tcp-concurrent: true
+
+# 进程匹配模式
+# 路由器上请设置为 off
+# always 开启，强制匹配所有进程
+# strict 默认，由 Clash 判断是否开启
+# off 不匹配进程，推荐在路由器上使用此模式
+find-process-mode: strict
+
+# 缓解移动设备耗电问题
+# https://github.com/vernesong/OpenClash/issues/2614
+keep-alive-interval: 1800
+
+# 全局客户端指纹
+global-client-fingerprint: chrome
+
+# 缓存
+profile:
+  # 缓存选择节点
+  store-selected: true
+  # 存储 FakeIP
+  store-fake-ip: true
+
+# 自动同步时间以防止时间不准导致无法正常联网
+ntp:
+  # 是否启用
+  enable: true
+  # 是否同步至系统时间，需要 root/管理员权限
+  write-to-system: false
+  # NTP 服务地址
+  server: time.apple.com
+  # NTP 服务端口
+  port: 123
+  # 同步时间间隔，单位（分），默认同步间隔为 30 分
+  interval: 30
+
+# 域名嗅探
+sniffer:
+  enable: true
+  # 需要嗅探的协议设置，仅支持 HTTP/TLS/QUIC
+  sniff:
+
+    # HTTP端口嗅探
+    HTTP:
+      ports: [80, 8080]
+
+      # 是否使用嗅探结果作为实际访问，默认为 true
+      override-destination: true
+
+    # TLS 端口嗅探
+    TLS:
+      ports: [443, 8443]
+
+    # QUIC 端口嗅探
+    QUIC:
+      ports: [443, 8443]
+
+  # 跳过嗅探域名
+  skip-domain:
+    - +.push.apple.com
+
+  # 对未映射IP 地址嗅探
+  # 启用未获取到域名强制嗅探，对所有未获取到域名的流量进行强制嗅探
+  parse-pure-ip: true
+
+  # 对真实 IP 映射嗅探
+  # 启用redir-host强制嗅探，对 redir-host 类型识别的流量进行强制嗅探
+  force-dns-mapping: true
+
+  # 覆盖连接地址
+  override-destination: false
+
+  # 需要强制嗅探的域名，默认情况下只对IP进行嗅探
+  force-domain: []
+
+
+# DNS 配置
+dns:
+  enable: true
+
+  # 启用IPV6，开启后会 IPV6 优先
+  ipv6: false
+
+  # 启用DoH的HTTP/3支持
+  prefer-h3: true
+
+  # DNS请求遵循规则路由，需配置 proxy-server-nameserver
+  respect-rules: true
+
+  # DNS服务器监听地址，仅支持 udp，ipv4：端口
+  listen: 0.0.0.0:53
+
+
+  # DNS 增强处理模式 ，可选值（normal：普通模式，fake-ip:fake-ip模式，redir-host :redir-host模式）
+  enhanced-mode: fake-ip
+
+  # fake-ip的预留映射地址段，ipv4网段
+  fake-ip-range: 28.0.0.1/8
+
+  # FakeIP 过滤，以下地址不会下发 FakeIP 映射用于连接
+  fake-ip-filter:
+    - "*"
+    - +.lan
+    - +.local
+    - time.*.com
+    - ntp.*.com
+    - +.market.xiaomi.com
+    - +.ip.me
+    - +.ipinfo.io
+    - +.api.ipapi.is
+    - +.api.ipify.org
+
+    - +.soadz.com
+    - +.leishao.eu.org
+    - +.xingzuowang.eu.org
+    - +.leishao.us.kg
+    - +.leishao.nyc.mn
+    - +.leishao.cloudns.org
+
+
+  default-nameserver:
+    # 默认 DNS, 用于解析 nameserver,fallback 以及其他DNS服务器配置的DNS服务器（只能使用纯IP地址，支持 UDP,TCP,DOT,DoH,DoQ）
+    - 223.5.5.5
+    - 119.29.29.29
+
+  # 默认的域名解析服务器
+  nameserver:
+    # 网络环境文明的话推荐直接使用运营商的DNS服务器 或者 沿用上游的DNS服务器
+    - 202.96.134.33
+    - 202.96.128.86
+
+  # 代理节点DNS解析服务器，用于解析代理节点的域名
+  # 代理节点域名解析服务器，仅用于解析代理节点的域名，如果不填则遵循nameserver-policy、nameserver和fallback的配置
+  # 有且只会用在解析代理节点的域名。
+  # 这边最好就是使用国内的公共DNS，避免你节点的域名被污染了，使用运营商DNS解析的结果不准确。
+  proxy-server-nameserver:
+    - tls://161874.alidns.com
+    - https://161874.alidns.com/dns-query
+    - tls://dot.pub
+    - https://doh.pub/dns-query
+
+
+
+tun:
+  enable: true
+  # tun 模式堆栈 建议使用 mixed栈，默认 gvisor
+  stack: system
+
+  # 定TUN网卡名称（macOS强制为 utun）
+  device: mihomo
+
+  # DNS劫持，一般设置为 any:53 即可，即劫持所有53端口的udp流量
+  dns-hijack:
+    - any:53
+    - tcp://any:53
+
+  # 自动设置全局路由，可以自动将全局流量路由进入 TUN 网卡
+  auto-route: true
+
+  # 自动选择流量出口接口
+  auto-detect-interface: true
+
+  # 严格路由
+  strict-route: true
+
+  # 如果有使用zerotier或者headscale等，需要自己配置排除自己的网段
+  # route-exclude-address: ["10.10.10.0/24"]
+
+  # 最大传输单元
+  mtu: 1500
+
+  # 自动重定向，自动配置iptables/nftables以重定向TCP连接（需要启用auto-route）
+  auto-redirect: false
+
+
+
+
+# 点订阅的参数 [每24小时更新一次订阅节点，每 60 秒一次健康检查]
+NodeParam: &NodeParam {type: http, interval: 86400, health-check: {enable: true, url: 'https://cp.cloudflare.com', interval: 60}}
+
+# 锚点 - 节点订阅
+proxy-providers:
+  我的节点:
+    url: 'https://sub.soadz.com:8443/leishao/download/collection/all_count?target=ClashMeta'
+    <<: *NodeParam
+    path: './proxy_provider/providers.yaml'
+
+
+# 锚点 - 节点筛选组
+FilterHK: &FilterHK '^(?=.*(香港|HK|Hong|🇭🇰))^(?!.*(网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点)).*$'
+FilterJP: &FilterJP '^(?=.*(日本|JP|Japan|🇯🇵))^(?!.*(网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点)).*$'
+FilterKR: &FilterKR '^(?=.*(韩国|韓|KR|Korea|🇰🇷))^(?!.*(网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点)).*$'
+FilterSG: &FilterSG '^(?=.*(新加坡|狮城|SG|Singapore|🇸🇬))^(?!.*(网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点)).*$'
+FilterUS: &FilterUS '^(?=.*(美国|US|United States|America|🇺🇸))^(?!.*(网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点)).*$'
+FilterTW: &FilterTW '^(?=.*(台湾|TW|Taiwan|Wan|🇹🇼|🇨🇳))^(?!.*(网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点)).*$'
+FilterOthers: &FilterOthers '^(?!.*(🇭🇰|HK|Hong|香港|🇹🇼|TW|Taiwan|Wan|🇯🇵|JP|Japan|日本|🇸🇬|SG|Singapore|狮城|🇺🇸|US|United States|America|美国|🇩🇪|DE|Germany|德国|🇬🇧|UK|United Kingdom|英国|🇰🇷|KR|Korea|韩国|韓|🇫🇷|FR|France|法国)).*$'
+FilterAll: &FilterAll '^(?=.*(.))(?!.*((?i)群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|(\b(USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author)\b|(\d{4}-\d{2}-\d{2}|\d+G)))).*$'
+
+# 策略组参数锚点
+# 锚点 - 手动选择参数
+Select: &Select
+  type: select
+  url: 'https://cp.cloudflare.com'
+  disable-udp: false
+  hidden: false
+  include-all: true
+
+# 自动选择参数
+AutoSelect: &AutoSelect
+  type: url-test
+  url: 'https://cp.cloudflare.com'
+  disable-udp: false
+  interval: 300    # 测试间隔时间，单位秒
+  tolerance: 50    # 延迟容差值
+  lazy: true       # 仅在需要时测试
+  hidden: false    # 是否隐藏策略组
+  include-all: true # 包含所有节点
+
+# 故障转移参数
+Fallback: &Fallback
+  type: fallback
+  url: 'https://cp.cloudflare.com'
+  disable-udp: false
+  interval: 300    # 测试间隔时间，单位秒
+  tolerance: 50    # 延迟容差值
+  lazy: true       # 仅在需要时测试
+  hidden: false    # 是否隐藏策略组
+  include-all: true # 包含所有节点
+
+# 负载均衡参数
+LoadBalance: &LoadBalance
+  type: load-balance
+  url: 'https://cp.cloudflare.com'
+  disable-udp: false
+  interval: 300    # 测试间隔时间，单位秒
+  tolerance: 50    # 延迟容差值
+  lazy: true       # 仅在需要时测试
+  hidden: false    # 是否隐藏策略组
+  include-all: true # 包含所有节点
+  strategy: consistent-hashing  # 负载均衡策略，可选：consistent-hashing(一致性哈希) / round-robin(轮询)
+
+
+proxies:
+  - {"server":"tw.leishao.nyc.mn","port":443,"cipher":"auto","uuid":"9a00efbc-efe4-4a24-83e0-32780ad07b42","skip-cert-verify":true,"udp":true,"name":"TwVmWsTls","type":"vmess","alterId":0,"network":"ws","tls":true,"ws-opts":{"path":"/9a00efbc","headers":{"Host":"tw.leishao.nyc.mn"}},"servername":"tw.leishao.nyc.mn"}
+  - {"server":"malaysia.com","port":443,"cipher":"auto","uuid":"5e678a1f-bed3-4a9b-bad5-b7f9e0aadedb","udp":true,"name":"RnVmTls","type":"vmess","alterId":0,"network":"ws","tls":true,"ws-opts":{"path":"/5e678a1f","headers":{"Host":"rn.leishao.eu.org"}},"skip-cert-verify":true,"servername":"rn.leishao.eu.org"}
+  - {"type":"hysteria2","name":"Serv00Hy2_S10","server":"128.204.223.112","port":55808,"password":"bc97f674-c578-4940-9234-0a1da46041b9","sni":"www.bing.com","skip-cert-verify":true,"tfo":false,"udp":true}
+  - {"type":"tuic","name":"Tuic_S10","server":"128.204.223.112","port":58714,"password":"admin123","uuid":"bc97f674-c578-4940-9234-0a1da46041b9","sni":"www.bing.com","congestion-control":"bbr","udp-relay_mode":"native","alpn":["h3"],"skip-cert-verify":true,"udp":true,"version":5}
+  - {"type":"hysteria2","name":"Serv00Hy2_S11","server":"128.204.223.118","port":11946,"password":"bc97f674-c578-4940-9234-0a1da46041b9","sni":"www.bing.com","skip-cert-verify":true,"tfo":false,"udp":true}
+  - {"type":"tuic","name":"Tuic_S11","server":"128.204.223.118","port":61280,"password":"admin123","uuid":"bc97f674-c578-4940-9234-0a1da46041b9","sni":"www.bing.com","congestion-control":"bbr","udp-relay_mode":"native","alpn":["h3"],"skip-cert-verify":true,"udp":true,"version":5}
+
+# 策略组
+proxy-groups:
+
+  - {name: 🔧 自建节点, type: select, proxies: [TwVmWsTls, RnVmTls,Serv00Hy2_S10,Tuic_S10,Serv00Hy2_S11,Tuic_S11, DIRECT]}
+  - {name: 🚀 节点选择, type: select, proxies: [🔧 自建节点, ♻️ 自动选择,🔯 故障转移,🔮 负载均衡, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇰🇷 韩国节点, 🇸🇬 狮城节点, 🇺🇸 美国节点, 🇨🇳 台湾节点, 🎯 全球直连]}
+  - {name: 🤖 Open_Ai, type: select, proxies: [🔧 自建节点, ♻️ 自动选择,🔯 故障转移,🔮 负载均衡, 🇺🇸 美国节点, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇰🇷 韩国节点, 🇸🇬 狮城节点, 🇨🇳 台湾节点, 🎯 全球直连]}
+  - {name: ✈️ 电报信息, type: select, proxies: [🔧 自建节点, ♻️ 自动选择,🔯 故障转移,🔮 负载均衡, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇰🇷 韩国节点, 🇸🇬 狮城节点, 🇺🇸 美国节点, 🇨🇳 台湾节点, 🎯 全球直连]}
+  - {name: 🌍 国外媒体, type: select, proxies: [🔧 自建节点, ♻️ 自动选择,🔯 故障转移,🔮 负载均衡, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇰🇷 韩国节点, 🇸🇬 狮城节点, 🇺🇸 美国节点, 🇨🇳 台湾节点, 🎯 全球直连]}
+  - {name: 🍎 苹果服务, type: select, proxies: [🎯 全球直连, ♻️ 自动选择,🔯 故障转移,🔮 负载均衡,🔧 自建节点, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇰🇷 韩国节点, 🇸🇬 狮城节点, 🇺🇸 美国节点, 🇨🇳 台湾节点]}
+  - {name: Ⓜ️ 微软服务, type: select, proxies: [🎯 全球直连, ♻️ 自动选择,🔯 故障转移, 🔮 负载均衡,🔧 自建节点, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇰🇷 韩国节点, 🇸🇬 狮城节点, 🇺🇸 美国节点, 🇨🇳 台湾节点]}
+  - {name: 🎧 网易音乐, type: select, proxies: [🎯 全球直连, ♻️ 自动选择,🔯 故障转移,🔮 负载均衡, 🔧 自建节点, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇰🇷 韩国节点, 🇸🇬 狮城节点, 🇺🇸 美国节点, 🇨🇳 台湾节点]}
+  - {name: 🐟 漏网之鱼, type: select, proxies: [🔧 自建节点, ♻️ 自动选择,🔯 故障转移, 🔮 负载均衡,🇭🇰 香港节点, 🇯🇵 日本节点, 🇰🇷 韩国节点, 🇸🇬 狮城节点, 🇺🇸 美国节点, 🇨🇳 台湾节点, 🎯 全球直连]}
+  - {name: 🎯 全球直连, type: select, proxies: [DIRECT, 🎯 手动切换]}
+  - {name: 🛑 广告拦截, type: select, proxies: [REJECT, DIRECT]}
+  - {name: 🎯 手动切换, <<: *Select}
+  - {name: ♻️ 自动选择, <<: *AutoSelect}
+  - {name: 🔯 故障转移, <<: *Fallback}
+  - {name: 🔮 负载均衡, <<: *LoadBalance}
+
+  - {name: 🇭🇰 香港节点, <<: *AutoSelect, filter: *FilterHK}
+  - {name: 🇯🇵 日本节点, <<: *AutoSelect, filter: *FilterJP}
+  - {name: 🇰🇷 韩国节点, <<: *AutoSelect, filter: *FilterKR}
+  - {name: 🇸🇬 狮城节点, <<: *AutoSelect, filter: *FilterSG}
+  - {name: 🇺🇸 美国节点, <<: *AutoSelect, filter: *FilterUS}
+  - {name: 🇨🇳 台湾节点, <<: *AutoSelect, filter: *FilterTW}
+  - {name: Others, <<: *AutoSelect, filter: *FilterOthers}
+  - {name: AllIn, <<: *AutoSelect, filter: *FilterAll}
+
+# 锚点 - 规则参数 [每12小时更新一次订阅规则，更新规则时使用（🚀 节点选择）策略]
+RuleSet_classical: &RuleSet_classical {type: http, behavior: classical, interval: 43200, format: text, proxy: 🚀 节点选择}
+RuleSet_domain: &RuleSet_domain {type: http, behavior: domain, interval: 43200, format: text, proxy: 🚀 节点选择}
+RuleSet_ipcidr: &RuleSet_ipcidr {type: http, behavior: ipcidr, interval: 43200, format: text, proxy: 🚀 节点选择}
+
+# 订阅规则
+rule-providers:
+  reject_non_ip_no_drop:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/non_ip/reject-no-drop.txt
+    path: ./rule_set/sukkaw_ruleset/reject_non_ip_no_drop.txt
+
+  reject_non_ip_drop:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/non_ip/reject-drop.txt
+    path: ./rule_set/sukkaw_ruleset/reject_non_ip_drop.txt
+
+  reject_non_ip:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/non_ip/reject.txt
+    path: ./rule_set/sukkaw_ruleset/reject_non_ip.txt
+
+  reject_domainset:
+    <<: *RuleSet_domain
+    url: https://ruleset.skk.moe/Clash/domainset/reject.txt
+    path: ./rule_set/sukkaw_ruleset/reject_domainset.txt
+
+  reject_ip:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/ip/reject.txt
+    path: ./rule_set/sukkaw_ruleset/reject_ip.txt
+
+  cdn_domainset:
+    <<: *RuleSet_domain
+    url: https://ruleset.skk.moe/Clash/domainset/cdn.txt
+    path: ./rule_set/sukkaw_ruleset/cdn_domainset.txt
+
+  cdn_non_ip:
+    <<: *RuleSet_domain
+    url: https://ruleset.skk.moe/Clash/non_ip/cdn.txt
+    path: ./rule_set/sukkaw_ruleset/cdn_non_ip.txt
+
+  # 所有流媒体（包括上述所有流媒体）
+  stream_non_ip:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/non_ip/stream.txt
+    path: ./rule_set/sukkaw_ruleset/stream_non_ip.txt
+  stream_ip:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/ip/stream.txt
+    path: ./rule_set/sukkaw_ruleset/stream_ip.txt
+
+  ai_non_ip:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/non_ip/ai.txt
+    path: ./rule_set/sukkaw_ruleset/ai_non_ip.txt
+
+  telegram_non_ip:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/non_ip/telegram.txt
+    path: ./rule_set/sukkaw_ruleset/telegram_non_ip.txt
+
+  telegram_ip:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/ip/telegram.txt
+    path: ./rule_set/sukkaw_ruleset/telegram_ip.txt
+
+  apple_cdn:
+    <<: *RuleSet_domain
+    url: https://ruleset.skk.moe/Clash/domainset/apple_cdn.txt
+    path: ./rule_set/sukkaw_ruleset/apple_cdn.txt
+
+  apple_services:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/non_ip/apple_services.txt
+    path: ./rule_set/sukkaw_ruleset/apple_services.txt
+
+  apple_cn_non_ip:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/non_ip/apple_cn.txt
+    path: ./rule_set/sukkaw_ruleset/apple_cn_non_ip.txt
+
+  microsoft_cdn_non_ip:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/non_ip/microsoft_cdn.txt
+    path: ./rule_set/sukkaw_ruleset/microsoft_cdn_non_ip.txt
+
+  microsoft_non_ip:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/non_ip/microsoft.txt
+    path: ./rule_set/sukkaw_ruleset/microsoft_non_ip.txt
+
+  # 软件更新、操作系统等大文件下载
+  download_domainset:
+    <<: *RuleSet_domain
+    url: https://ruleset.skk.moe/Clash/domainset/download.txt
+    path: ./rule_set/sukkaw_ruleset/download_domainset.txt
+  download_non_ip:
+    <<: *RuleSet_domain
+    url: https://ruleset.skk.moe/Clash/non_ip/download.txt
+    path: ./rule_set/sukkaw_ruleset/download_non_ip.txt
+
+  # 内网域名和局域网 IP
+  lan_non_ip:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/non_ip/lan.txt
+    path: ./rule_set/sukkaw_ruleset/lan_non_ip.txt
+  lan_ip:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/ip/lan.txt
+    path: ./rule_set/sukkaw_ruleset/lan_ip.txt
+
+  domestic_non_ip:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/non_ip/domestic.txt
+    path: ./rule_set/sukkaw_ruleset/domestic_non_ip.txt
+  direct_non_ip:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/non_ip/direct.txt
+    path: ./rule_set/sukkaw_ruleset/direct_non_ip.txt
+  global_non_ip:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/non_ip/global.txt
+    path: ./rule_set/sukkaw_ruleset/global_non_ip.txt
+  domestic_ip:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/ip/domestic.txt
+    path: ./rule_set/sukkaw_ruleset/domestic_ip.txt
+
+  china_ip:
+    <<: *RuleSet_ipcidr
+    url: https://ruleset.skk.moe/Clash/ip/china_ip.txt
+    path: ./rule_set/sukkaw_ruleset/china_ip.txt
+
+# 分流规则
+rules:
+  ### 非 IP 类规则
+  - RULE-SET,reject_non_ip,🛑 广告拦截
+  - RULE-SET,reject_domainset,🛑 广告拦截
+  - RULE-SET,reject_non_ip_drop,REJECT-DROP
+  - RULE-SET,reject_non_ip_no_drop,🛑 广告拦截
+  - RULE-SET,cdn_domainset,🚀 节点选择
+  - RULE-SET,cdn_non_ip,🚀 节点选择
+  - RULE-SET,stream_non_ip,🌍 国外媒体
+  - RULE-SET,telegram_non_ip,✈️ 电报信息
+  - RULE-SET,apple_cdn,🎯 全球直连
+  - RULE-SET,download_domainset,🎯 全球直连
+  - RULE-SET,download_non_ip,🎯 全球直连
+  - RULE-SET,microsoft_cdn_non_ip,🎯 全球直连
+  - RULE-SET,apple_cn_non_ip,🎯 全球直连
+  - RULE-SET,apple_services,🍎 苹果服务
+  - RULE-SET,microsoft_non_ip,Ⓜ️ 微软服务
+  - RULE-SET,ai_non_ip,🤖 Open_Ai
+  - RULE-SET,global_non_ip,🚀 节点选择
+  - RULE-SET,domestic_non_ip,🎯 全球直连
+  - RULE-SET,direct_non_ip,🎯 全球直连
+  - RULE-SET,lan_non_ip,🎯 全球直连
+
+  ### IP 类规则
+  - RULE-SET,reject_ip,🛑 广告拦截
+  - RULE-SET,telegram_ip,✈️ 电报信息
+  - RULE-SET,stream_ip,🌍 国外媒体
+  - RULE-SET,lan_ip,🎯 全球直连
+  - RULE-SET,domestic_ip,🎯 全球直连
+  - RULE-SET,china_ip,🎯 全球直连
+  - MATCH,🐟 漏网之鱼
 
