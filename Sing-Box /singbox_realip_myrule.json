@@ -31,7 +31,7 @@
                 "address_resolver": "ali-dns",
                 "address_strategy": "ipv4_only",
                 "strategy": "ipv4_only",
-                "client_subnet": "1.0.1.0"
+                "client_subnet": "202.96.134.33"
             }
         ],
       "rules":
@@ -94,15 +94,6 @@
           "sniff": true,
           "sniff_override_destination": true,
           "strict_route": true,
-          "platform":
-          {
-              "http_proxy":
-              {
-                  "enabled": true,
-                  "server": "127.0.0.1",
-                  "server_port": 7890
-              }
-          }
       },
         {
             "tag": "dns-in",
