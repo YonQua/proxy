@@ -186,17 +186,6 @@ dns:
     - time.*.com
     - ntp.*.com
     - +.market.xiaomi.com
-    - +.ip.me
-    - +.ipinfo.io
-    - +.api.ipapi.is
-    - +.api.ipify.org
-
-    - +.soadz.com
-    - +.leishao.eu.org
-    - +.xingzuowang.eu.org
-    - +.leishao.us.kg
-    - +.leishao.nyc.mn
-    - +.leishao.cloudns.org
 
 
   default-nameserver:
@@ -215,8 +204,8 @@ dns:
   # 有且只会用在解析代理节点的域名。
   # 这边最好就是使用国内的公共DNS，避免你节点的域名被污染了，使用运营商DNS解析的结果不准确。
   proxy-server-nameserver:
-    - tls://161874.alidns.com
-    - https://161874.alidns.com/dns-query
+    - tls://dns.alidns.com
+    - https://dns.alidns.com/dns-query
     - tls://dot.pub
     - https://doh.pub/dns-query
 
@@ -262,7 +251,7 @@ NodeParam: &NodeParam {type: http, interval: 86400, health-check: {enable: true,
 # 锚点 - 节点订阅
 proxy-providers:
   我的节点:
-    url: 'https://sub.soadz.com:8443/leishao/download/collection/all_count?target=ClashMeta'
+    url: ''
     <<: *NodeParam
     path: './proxy_provider/providers.yaml'
 
