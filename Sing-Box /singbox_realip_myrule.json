@@ -16,7 +16,7 @@
             },
             {
                 "tag": "ali-dns",
-                "address": "https://161874.alidns.com/dns-query",
+                "address": "https://dns.alidns.com/dns-query",
                 "address_resolver": "bootstrap-dns",
                 "detour": "direct-out"
             },
