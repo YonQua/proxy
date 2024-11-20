@@ -18,7 +18,7 @@
             "external_controller": "0.0.0.0:80",
             "external_ui": "ui",
             "secret": "",
-            "external_ui_download_url": "https://proxy.leishao.nyc.mn/https://proxy.leishao.nyc.mn/https://proxy.leishao.nyc.mn/https://github.com/MetaCubeX/Yacd-meta/archive/gh-pages.zip",
+            "external_ui_download_url": "https://proxy.leishao.nyc.mn/https://github.com/MetaCubeX/Yacd-meta/archive/gh-pages.zip",
             "external_ui_download_detour": "🚀 节点选择",
             "default_mode": "rule"
         }
@@ -51,14 +51,14 @@
             },
             {
                 "tag": "ali-dns",
-                "address": "https://proxy.leishao.nyc.mn/https://161874.alidns.com/dns-query",
+                "address": "https://161874.alidns.com/dns-query",
                 "address_resolver": "bootstrap-dns",
                 "address_strategy": "prefer_ipv4",
                 "detour": "🎯 全球直连"
             },
             {
                 "tag": "dns_google",
-                "address": "https://proxy.leishao.nyc.mn/https://dns.google/dns-query",
+                "address": "https://dns.google/dns-query",
                 "address_resolver": "bootstrap-dns",
                 "address_strategy": "ipv4_only",
                 "detour": "🚀 节点选择"
