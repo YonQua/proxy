@@ -142,7 +142,9 @@
     [
         {
             "tag": "🎯 全球直连",
-            "type": "direct"
+            "type": "direct",
+            "routing_mark": 100
+            
         },
         {
             "tag": "🚀 节点选择",
@@ -540,7 +542,7 @@
                         "port": 53
                     }
                 ],
-                "outbound": ["direct"]
+                "outbound": "🎯 全球直连"
             },
             {
                 "clash_mode": "direct",
@@ -548,7 +550,7 @@
             },
             {
                 "clash_mode": "global",
-                "outbound": "GLOBAL"
+                "outbound": "🚀 节点选择"
             },
             {
                 "rule_set":
