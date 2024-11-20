@@ -540,7 +540,7 @@
                         "port": 53
                     }
                 ],
-                "outbound": ["direct"]
+                "outbound": "🎯 全球直连"
             },
             {
                 "clash_mode": "direct",
