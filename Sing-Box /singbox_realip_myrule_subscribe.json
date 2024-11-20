@@ -141,8 +141,17 @@
     "outbounds":
     [
         {
+            "tag": "dns-out",
+            "type": "dns"
+        },
+        {
+            "tag": "block-out",
+            "type": "block"
+        },
+        {
             "tag": "🎯 全球直连",
-            "type": "direct"
+            "type": "direct",
+            "routing_mark": 100
         },
         {
             "tag": "🚀 节点选择",
@@ -540,7 +549,7 @@
                         "port": 53
                     }
                 ],
-                "outbound": "🎯 全球直连"
+                "outbound": "dns-out"
             },
             {
                 "clash_mode": "direct",
@@ -548,7 +557,7 @@
             },
             {
                 "clash_mode": "global",
-                "outbound": "GLOBAL"
+                "outbound": "🚀 节点选择"
             },
             {
                 "rule_set":
@@ -557,14 +566,14 @@
                     "reject_non_ip_no_drop",
                     "reject_domainset"
                 ],
-                "outbound": "block"
+                "outbound": "block-out"
             },
             {
                 "rule_set":
                 [
                     "reject_ip"
                 ],
-                "outbound": "block"
+                "outbound": "block-out"
             },
             {
                 "rule_set":
