@@ -141,6 +141,14 @@
     "outbounds":
     [
         {
+            "tag": "dns-out",
+            "type": "dns"
+        },
+        {
+            "tag": "block-out",
+            "type": "block"
+        },
+        {
             "tag": "🎯 全球直连",
             "type": "direct",
             "routing_mark": 100
@@ -529,7 +537,14 @@
         "final": "🚀 节点选择",
         "rules":
         [
-
+ 
+            {
+                "action": "sniff"
+            },
+            {
+                "protocol": "dns",
+                "action": "hijack-dns"
+            },
             {
                 "clash_mode": "direct",
                 "outbound": "🎯 全球直连"
