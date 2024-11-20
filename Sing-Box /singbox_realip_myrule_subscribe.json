@@ -10,21 +10,22 @@
         "servers":
         [
             {
-                "tag": "dns_proxy",
+                "tag": "dns_google",
                 "address": "https://dns.google/dns-query",
-                "address_resolver": "dns_resolver",
+                "address_resolver": "ali-dns",
+                "address_strategy": "ipv4_only",
                 "strategy": "ipv4_only",
+                "client_subnet": "202.96.134.33",
                 "detour": "🚀 节点选择"
             },
             {
-                "tag": "dns_direct",
-                "address": "https://dns.alidns.com/dns-query",
-                "address_resolver": "dns_resolver",
-                "strategy": "ipv4_only",
+                "tag": "ali-dns",
+                "address": "https://161874.alidns.com/dns-query",
+                "address_resolver": "bootstrap-dns",
                 "detour": "direct-out"
             },
             {
-                "tag": "dns_resolver",
+                "tag": "bootstrap-dns",
                 "address": "119.29.29.29",
                 "detour": "direct-out"
             }
@@ -33,19 +34,19 @@
         [
             {
                 "outbound": "any",
-                "server": "dns_resolver"
+                "server": "bootstrap-dns"
             },
             {
                 "clash_mode": "direct",
-                "server": "dns_direct"
+                "server": "ali-dns"
             },
             {
                 "clash_mode": "global",
-                "server": "dns_proxy"
+                "server": "dns_google"
             },
             {
                 "rule_set": "geosite-cn",
-                "server": "dns_direct"
+                "server": "ali-dns"
             },
             {
                 "type": "logical",
@@ -60,12 +61,12 @@
                         "rule_set": "geoip-cn"
                     }
                 ],
-                "server": "dns_proxy",
+                "server": "dns_google",
                 "client_subnet": "202.96.134.33/24"
             }
         ],
         "strategy": "ipv4_only",
-        "final": "dns_proxy"
+        "final": "dns_google"
     },
     "inbounds":
     [
@@ -280,7 +281,38 @@
             "outbounds":
             [
                 "{all}"
+            ],
+            "filter":
+            [
+                {
+                    "action": "exclude",
+                    "keywords":
+                    [
+                        "网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点"
+                    ]
+                }
             ]
+        },
+        {
+            "tag": "♻️ 自动选择",
+            "type": "urltest",
+            "outbounds":
+            [
+                "{all}"
+            ],
+            "filter":
+            [
+                {
+                    "action": "exclude",
+                    "keywords":
+                    [
+                        "网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点"
+                    ]
+                }
+            ],
+            "url": "http://www.gstatic.com/generate_204",
+            "interval": "10m",
+            "tolerance": 50
         },
         {
             "tag": "🇭🇰 香港节点",
@@ -431,27 +463,6 @@
                     ]
                 }
             ]
-        },
-        {
-            "tag": "♻️ 自动选择",
-            "type": "urltest",
-            "outbounds":
-            [
-                "{all}"
-            ],
-            "filter":
-            [
-                {
-                    "action": "exclude",
-                    "keywords":
-                    [
-                        "网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点"
-                    ]
-                }
-            ],
-            "url": "http://www.gstatic.com/generate_204",
-            "interval": "10m",
-            "tolerance": 50
         },
         {
             "tag": "GLOBAL",
