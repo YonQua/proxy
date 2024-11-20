@@ -105,7 +105,6 @@
         "disable_cache": false,
         "disable_expire": false,
         "independent_cache": false,
-        "cache_capacity": 0,
         "reverse_mapping": false,
         "strategy": "ipv4_only",
         "client_subnet": "202.96.134.33/24",
@@ -541,7 +540,7 @@
                         "port": 53
                     }
                 ],
-                "outbound": "dns-out"
+                "outbound": ["direct"]
             },
             {
                 "clash_mode": "direct",
