@@ -2,7 +2,7 @@
     "log":
     {
         "disabled": false,
-        "level": "Error",
+        "level": "warn",
         "timestamp": true
     },
     "dns":
@@ -279,8 +279,7 @@
             "type": "selector",
             "outbounds":
             [
-                "{all}",
-                "direct"
+                "{all}"
             ]
         },
         {
@@ -288,8 +287,7 @@
             "type": "selector",
             "outbounds":
             [
-                "{all}",
-                "direct"
+                "{all}"
             ],
             "filter":
             [
@@ -314,8 +312,7 @@
             "type": "selector",
             "outbounds":
             [
-                "{all}",
-                "direct"
+                "{all}"
             ],
             "filter":
             [
@@ -340,8 +337,7 @@
             "type": "selector",
             "outbounds":
             [
-                "{all}",
-                "direct"
+                "{all}"
             ],
             "filter":
             [
@@ -366,8 +362,7 @@
             "type": "selector",
             "outbounds":
             [
-                "{all}",
-                "direct"
+                "{all}"
             ],
             "filter":
             [
@@ -392,8 +387,7 @@
             "type": "selector",
             "outbounds":
             [
-                "{all}",
-                "direct"
+                "{all}"
             ],
             "filter":
             [
@@ -418,8 +412,7 @@
             "type": "selector",
             "outbounds":
             [
-                "{all}",
-                "direct"
+                "{all}"
             ],
             "filter":
             [
@@ -444,8 +437,7 @@
             "type": "urltest",
             "outbounds":
             [
-                "{all}",
-                "direct"
+                "{all}"
             ],
             "filter":
             [
