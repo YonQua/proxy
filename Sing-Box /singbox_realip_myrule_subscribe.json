@@ -58,7 +58,7 @@
                 "tag": "dns_google",
                 "address": "https://dns.google/dns-query",
                 "address_resolver": "bootstrap-dns",
-                "address_strategy": "prefer_ipv4",
+                "address_strategy": "ipv4_only",
                 "detour": "♻️ 自动选择"
             }
         ],
