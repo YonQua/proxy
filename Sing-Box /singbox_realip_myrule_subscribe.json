@@ -106,7 +106,7 @@
         "independent_cache": false,
         "reverse_mapping": false,
         "strategy": "prefer_ipv4",
-        "client_subnet": "202.96.134.33/24",
+        "client_subnet": "114.114.114.114/24",
         "final": "dns_google"
     },
     "inbounds":
