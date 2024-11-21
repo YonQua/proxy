@@ -106,7 +106,7 @@
         "disable_expire": false,
         "independent_cache": false,
         "reverse_mapping": false,
-        "strategy": "prefer_ipv4",
+        "strategy": "ipv4_only",
         "final": "dns_google"
     },
     "inbounds":
