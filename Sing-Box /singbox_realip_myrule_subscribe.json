@@ -40,7 +40,7 @@
                 "tag": "bootstrap-dns",
                 "address": "119.29.29.29",
                 "detour": "🎯 全球直连",
-                "strategy": "ipv4_only"
+                "address_strategy": "ipv4_only"
             },
             {
                 "tag": "system-dns",
@@ -58,8 +58,8 @@
                 "tag": "dns_google",
                 "address": "https://dns.google/dns-query",
                 "address_resolver": "bootstrap-dns",
-                "address_strategy": "ipv4_only",
-                "detour": "♻️ 自动选择"
+                "address_strategy": "prefer_ipv4",
+                "detour": "🚀 节点选择"
             }
         ],
         "rules":
