@@ -51,7 +51,7 @@
                 "tag": "ali-dns",
                 "address": "https://161874.alidns.com/dns-query",
                 "address_resolver": "bootstrap-dns",
-                "address_strategy": "prefer_ipv4"
+                "address_strategy": "prefer_ipv4",
                 "detour": "🎯 全球直连"
             },
             {
