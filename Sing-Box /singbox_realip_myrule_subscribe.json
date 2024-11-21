@@ -52,6 +52,7 @@
                 "address": "https://161874.alidns.com/dns-query",
                 "address_resolver": "bootstrap-dns",
                 "address_strategy": "prefer_ipv4",
+                "client_subnet": "1.0.1.0",
                 "detour": "🎯 全球直连"
             },
             {
