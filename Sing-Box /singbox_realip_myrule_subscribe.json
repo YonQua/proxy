@@ -33,6 +33,14 @@
         "servers":
         [
             {
+                "tag": "dns_success",
+                "address": "rcode://success"
+            },
+            {
+                "tag": "dns_refused",
+                "address": "rcode://refused"
+            },
+            {
                 "tag": "block-dns",
                 "address": "rcode://name_error"
             },
@@ -59,7 +67,7 @@
                 "tag": "dns_google",
                 "address": "https://dns.google/dns-query",
                 "address_resolver": "bootstrap-dns",
-                "address_strategy": "prefer_ipv4",
+                "address_strategy": "ipv4_only",
                 "client_subnet": "1.0.1.0",
                 "detour": "🚀 节点选择"
             }
