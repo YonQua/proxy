@@ -560,6 +560,11 @@
                 "clash_mode": "global",
                 "outbound": "🚀 节点选择"
             },
+             {
+                "network": "udp",
+                "port": 443,
+                "outbound": "block-out"
+            },
             {
                 "rule_set":
                 [
