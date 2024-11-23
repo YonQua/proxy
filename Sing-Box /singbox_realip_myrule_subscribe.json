@@ -84,7 +84,7 @@
                     "AAAA",
                     "HTTPS"
                 ],
-                "server": "block",
+                "server": "block-dns",
                 "disable_cache": true
             },
             {
