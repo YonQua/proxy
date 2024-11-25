@@ -575,7 +575,7 @@
             "default": "♻️ 自动选择"
         }
     ],
-    "route":
+   "route":
     {
         "auto_detect_interface": true,
         "default_mark": 10,
@@ -587,6 +587,16 @@
                 "outbound": "dns-out"
             },
             {
+                "port": 853,
+                "network": "tcp",
+                "outbound": "REJECT"
+            },
+            {
+                "port": 443,
+                "network": "udp",
+                "outbound": "REJECT"
+            },
+            {
                 "clash_mode": "direct",
                 "outbound": "🎯 全球直连"
             },
@@ -594,7 +604,13 @@
                 "clash_mode": "global",
                 "outbound": "🚀 节点选择"
             },
-
+            {
+                "rule_set":
+                [
+                    "ads"
+                ],
+                "outbound": "🛑 广告拦截"
+            },
             {
                 "rule_set":
                 [
@@ -759,21 +775,18 @@
                 "tag": "fakeip-filter",
                 "type": "remote",
                 "format": "binary",
-                "path": "./ruleset/fakeip-filter.srs",
                 "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/fakeip-filter.srs"
             },
             {
                 "tag": "private",
                 "type": "remote",
                 "format": "binary",
-                "path": "./ruleset/private.srs",
                 "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/private.srs"
             },
             {
                 "tag": "ads",
                 "type": "remote",
                 "format": "binary",
-                "path": "./ruleset/ads.srs",
                 "url": "https://github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/ads.srs"
             },
             {
