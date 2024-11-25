@@ -22,7 +22,7 @@
     },
     "ntp":
     {
-        "enabled": true,
+        "enabled": false,
         "server": "time.apple.com",
         "server_port": 123,
         "interval": "30m",
@@ -132,7 +132,7 @@
         {
             "enabled": true,
             "inet4_range": "28.0.0.1/8",
-            "inet6_range": "fc00::/18",
+            "inet6_range": "fc00::/18"
         }
     },
     "inbounds":
@@ -173,14 +173,6 @@
         {
             "tag": "DIRECT",
             "type": "direct"
-        },
-        {
-            "tag": "🛑 广告拦截",
-            "type": "selector",
-            "outbounds":
-            [
-                "REJECT"
-            ]
         },
         {
             "tag": "🎯 全球直连",
