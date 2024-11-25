@@ -138,13 +138,6 @@
     "inbounds":
     [
         {
-            "type": "direct",
-            "tag": "dns-in",
-            "network": "udp",
-            "listen": "::",
-            "listen_port": 53
-        },
-        {
             "tag": "tun-in",
             "type": "tun",
             "interface_name": "singbox",
@@ -174,7 +167,6 @@
             "tag": "DIRECT",
             "type": "direct"
         },
-
         {
             "tag": "🚀 节点选择",
             "type": "selector",
@@ -345,7 +337,7 @@
             ],
             "default": "🎯 全球直连"
         },
-         {
+        {
             "tag": "🛑 广告拦截",
             "type": "selector",
             "outbounds":
@@ -353,11 +345,9 @@
                 "REJECT",
                 "🎯 全球直连",
                 "🚀 节点选择"
-
             ],
-              "default": "REJECT"
+            "default": "REJECT"
         },
-
         {
             "tag": "🐟 漏网之鱼",
             "type": "selector",
@@ -366,9 +356,9 @@
                 "🚀 节点选择",
                 "🎯 全球直连"
             ],
-              "default": "🚀 节点选择"
+            "default": "🚀 节点选择"
         },
-                {
+        {
             "tag": "🎯 全球直连",
             "type": "selector",
             "outbounds":
@@ -591,7 +581,17 @@
         "rules":
         [
             {
-                "inbound": "dns-in",
+                "type": "logical",
+                "mode": "or",
+                "rules":
+                [
+                    {
+                        "port": 53
+                    },
+                    {
+                        "protocol": "dns"
+                    }
+                ],
                 "outbound": "dns-out"
             },
             {
@@ -762,7 +762,6 @@
         ],
         "rule_set":
         [
-
             {
                 "tag": "my_direct",
                 "type": "remote",
