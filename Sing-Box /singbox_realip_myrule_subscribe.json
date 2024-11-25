@@ -138,6 +138,13 @@
     "inbounds":
     [
         {
+            "type": "direct",
+            "tag": "dns-in",
+            "network": "udp",
+            "listen": "::",
+            "listen_port": 53
+        },
+        {
             "tag": "tun-in",
             "type": "tun",
             "interface_name": "singbox",
@@ -581,17 +588,7 @@
         "rules":
         [
             {
-                "type": "logical",
-                "mode": "or",
-                "rules":
-                [
-                    {
-                        "port": 53
-                    },
-                    {
-                        "protocol": "dns"
-                    }
-                ],
+                "inbound": "dns-in",
                 "outbound": "dns-out"
             },
             {
