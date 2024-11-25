@@ -174,22 +174,7 @@
             "tag": "DIRECT",
             "type": "direct"
         },
-        {
-            "tag": "🛑 广告拦截",
-            "type": "selector",
-            "outbounds":
-            [
-                "REJECT"
-            ]
-        },
-        {
-            "tag": "🎯 全球直连",
-            "type": "selector",
-            "outbounds":
-            [
-                "DIRECT"
-            ]
-        },
+
         {
             "tag": "🚀 节点选择",
             "type": "selector",
@@ -360,6 +345,19 @@
             ],
             "default": "🎯 全球直连"
         },
+         {
+            "tag": "🛑 广告拦截",
+            "type": "selector",
+            "outbounds":
+            [
+                "REJECT",
+                "🎯 全球直连",
+                "🚀 节点选择"
+
+            ],
+              "default": "REJECT"
+        },
+
         {
             "tag": "🐟 漏网之鱼",
             "type": "selector",
@@ -367,6 +365,15 @@
             [
                 "🚀 节点选择",
                 "🎯 全球直连"
+            ],
+              "default": "🚀 节点选择"
+        },
+                {
+            "tag": "🎯 全球直连",
+            "type": "selector",
+            "outbounds":
+            [
+                "DIRECT"
             ]
         },
         {
