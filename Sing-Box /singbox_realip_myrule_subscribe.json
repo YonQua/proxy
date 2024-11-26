@@ -611,7 +611,13 @@
             {
                 "domain":
                 [
-                    "linux.do",
+                    "linux.do"
+                ],
+                "outbound": "🚀 节点选择"
+            },
+            {
+                "domain_keyword":
+                [
                     "codeium.com"
                 ],
                 "outbound": "🚀 节点选择"
