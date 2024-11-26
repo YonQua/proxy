@@ -378,7 +378,8 @@
             "type": "urltest",
             "outbounds":
             [
-                "{all}"
+                "{all}",
+                "🎯 全球直连"
             ],
             "filter":
             [
@@ -399,7 +400,8 @@
             "type": "selector",
             "outbounds":
             [
-                "{all}"
+                "{all}",
+                "🎯 全球直连"
             ],
             "filter":
             [
@@ -418,7 +420,8 @@
             "type": "selector",
             "outbounds":
             [
-                "{all}"
+                "{all}",
+                "🎯 全球直连"
             ],
             "filter":
             [
@@ -444,7 +447,8 @@
             "type": "selector",
             "outbounds":
             [
-                "{all}"
+                "{all}",
+                "🎯 全球直连"
             ],
             "filter":
             [
@@ -470,7 +474,8 @@
             "type": "selector",
             "outbounds":
             [
-                "{all}"
+                "{all}",
+                "🎯 全球直连"
             ],
             "filter":
             [
@@ -496,7 +501,8 @@
             "type": "selector",
             "outbounds":
             [
-                "{all}"
+                "{all}",
+                "🎯 全球直连"
             ],
             "filter":
             [
@@ -522,7 +528,8 @@
             "type": "selector",
             "outbounds":
             [
-                "{all}"
+                "{all}",
+                "🎯 全球直连"
             ],
             "filter":
             [
@@ -548,7 +555,8 @@
             "type": "selector",
             "outbounds":
             [
-                "{all}"
+                "{all}",
+                "🎯 全球直连"
             ],
             "filter":
             [
