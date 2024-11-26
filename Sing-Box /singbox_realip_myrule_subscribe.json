@@ -596,10 +596,13 @@
         "final": "🐟 漏网之鱼",
         "rules":
         [
-
             {
-                "inbound": "dns-in",
+                "port": 53,
                 "outbound": "dns-out"
+            },
+            {
+                "ip_is_private": true,
+                "outbound": "direct"
             },
 
             {
