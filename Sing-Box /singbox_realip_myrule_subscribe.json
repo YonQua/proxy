@@ -596,18 +596,9 @@
         "final": "🐟 漏网之鱼",
         "rules":
         [
+
             {
-                "inbound":
-                [
-                    "mixed-in"
-                ],
-                "outbound": "🎯 全球直连"
-            },
-            {
-                "protocol":
-                [
-                    "dns"
-                ],
+                "inbound": "dns-in",
                 "outbound": "dns-out"
             },
 
