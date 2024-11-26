@@ -609,6 +609,22 @@
                 "outbound": "🚀 节点选择"
             },
             {
+                "protocol":
+                [
+                    "udp",
+                    "quic"
+                ],
+                "outbound": "🎯 全球直连"
+            },
+            {
+                "ip_is_private": false,
+                "source_port":
+                [
+                    123
+                ],
+                "outbound": "🎯 全球直连"
+            },
+            {
                 "domain":
                 [
                     "linux.do"
