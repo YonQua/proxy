@@ -593,7 +593,7 @@
     {
         "auto_detect_interface": true,
         "default_mark": 10,
-        "final": "🐟 漏网之鱼",
+        "final": "🎯 全球直连",
         "rules":
         [
             {
@@ -606,6 +606,13 @@
             },
             {
                 "clash_mode": "global",
+                "outbound": "🚀 节点选择"
+            },
+            {
+                "domain":
+                [
+                    "test.com"
+                ],
                 "outbound": "🚀 节点选择"
             },
             {
