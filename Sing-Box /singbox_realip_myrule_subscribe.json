@@ -597,9 +597,20 @@
         "rules":
         [
             {
-                "inbound": "dns-in",
+                "inbound":
+                [
+                    "mixed-in"
+                ],
+                "outbound": "🎯 全球直连"
+            },
+            {
+                "protocol":
+                [
+                    "dns"
+                ],
                 "outbound": "dns-out"
             },
+
             {
                 "clash_mode": "direct",
                 "outbound": "🎯 全球直连"
