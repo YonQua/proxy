@@ -601,6 +601,20 @@
                 "outbound": "dns-out"
             },
             {
+                "port": 853,
+                "network": "tcp",
+                "outbound": "REJECT"
+            },
+            {
+                "port":
+                [
+                    443,
+                    853
+                ],
+                "network": "udp",
+                "outbound": "REJECT"
+            },
+            {
                 "clash_mode": "direct",
                 "outbound": "🎯 全球直连"
             },
