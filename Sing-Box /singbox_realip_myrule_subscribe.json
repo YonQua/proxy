@@ -32,10 +32,7 @@
     {
         "servers":
         [
-            {
-                "tag": "dns_block",
-                "address": "rcode://success"
-            },
+
             {
                 "tag": "dns_bootstrap",
                 "address": "119.29.29.29",
@@ -76,13 +73,10 @@
                 "server": "dns_ali"
             },
             {
-                "query_type":
-                [
-                    "HTTPS"
-                ],
-                "server": "dns_block",
-                "disable_cache": true
-            },
+                "query_type": "HTTPS",
+                "action": "reject",
+                "method": "drop"
+              },
             {
                 "clash_mode": "direct",
                 "query_type":
