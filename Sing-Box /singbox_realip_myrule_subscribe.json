@@ -84,10 +84,6 @@
                 "disable_cache": true
             },
             {
-              "query_type": [64, 65],
-              "action": "reject"
-            },
-            {
                 "clash_mode": "direct",
                 "query_type":
                 [
