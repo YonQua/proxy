@@ -11,8 +11,6 @@
         {
             "enabled": true,
             "store_fakeip": true
-
-
         },
         "clash_api":
         {
