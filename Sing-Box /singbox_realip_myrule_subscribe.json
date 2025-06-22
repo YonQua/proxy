@@ -47,7 +47,7 @@
             },
             {
                 "tag": "dns_ali",
-                "address": "https://161874.alidns.com/dns-query",
+                "address": "https://alidns.com/dns-query",
                 "address_resolver": "dns_bootstrap",
                 "address_strategy": "prefer_ipv4",
                 "strategy": "prefer_ipv4",
