@@ -430,24 +430,27 @@
         "rules":
         [
             {
-                "inbound": "tun-in",
-                "outbound": "dns-out"
+                "action": "sniff"
+            },
+            {
+                "protocol": "dns",
+                "action": "hijack-dns"
             },
             {
                 "clash_mode": "direct",
-                "outbound": "🎯 全球直连"
+                "action": "🎯 全球直连"
             },
             {
                 "clash_mode": "global",
-                "outbound": "🚀 节点选择"
+                "action": "🚀 节点选择"
             },
             {
                 "rule_set": "geosite-cn",
-                "outbound": "🎯 全球直连"
+                "action": "🎯 全球直连"
             },
             {
                 "rule_set": "geoip-cn",
-                "outbound": "🎯 全球直连"
+                "action": "🎯 全球直连"
             },
             {
                 "rule_set":
@@ -455,11 +458,11 @@
                     "stream_non_ip",
                     "stream_ip"
                 ],
-                "outbound": "🌍 国外媒体"
+                "action": "🌍 国外媒体"
             },
             {
                 "rule_set": "ai_non_ip",
-                "outbound": "🤖 OpenAI"
+                "action": "🤖 OpenAI"
             },
             {
                 "rule_set":
@@ -467,7 +470,7 @@
                     "telegram_non_ip",
                     "telegram_ip"
                 ],
-                "outbound": "📲 Telegram"
+                "action": "📲 Telegram"
             }
         ],
         "rule_set":
