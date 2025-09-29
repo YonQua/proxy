@@ -1,15 +1,19 @@
 {
-    "log": {
+    "log":
+    {
         "disabled": false,
-        "level": "warn",
+        "level": "error",
         "timestamp": true
     },
-    "experimental": {
-        "cache_file": {
+    "experimental":
+    {
+        "cache_file":
+        {
             "enabled": true,
             "store_fakeip": true
         },
-        "clash_api": {
+        "clash_api":
+        {
             "external_controller": "0.0.0.0:80",
             "external_ui": "dashboard",
             "secret": "",
@@ -17,80 +21,98 @@
             "default_mode": "rule"
         }
     },
-    "ntp": {
+    "ntp":
+    {
         "enabled": true,
         "server": "time.apple.com",
         "server_port": 123,
         "interval": "30m",
         "detour": "🎯 全球直连"
     },
-    "dns": {
-        "servers": [
+    "dns":
+    {
+        "servers":
+        [
             {
-                "tag": "dns_bootstrap",
-                "address": "119.29.29.29",
-                "detour": "🎯 全球直连"
+                "type": "https",
+                "server": "1.1.1.1",
+                "detour": "Available",
+                "tag": "remote"
             },
             {
-                "tag": "dns_ali",
-                "address": "https://alidns.com/dns-query",
-                "address_resolver": "dns_bootstrap",
-                "detour": "🎯 全球直连"
+                "type": "https",
+                "server": "223.5.5.5",
+                "tag": "local"
             },
             {
-                "tag": "dns_google",
-                "address": "https://dns.google/dns-query",
-                "address_resolver": "dns_bootstrap",
-                "detour": "♻️ 自动选择"
+                "type": "hosts",
+                "path":
+                [],
+                "predefined":
+                {},
+                "tag": "block"
             },
             {
-                "tag": "dns_fakeip",
-                "address": "fakeip"
+                "type": "local"
             }
         ],
-        "rules": [
+        "rules":
+        [
             {
-                "outbound": "any",
-                "server": "dns_ali"
+                "clash_mode": "Proxy",
+                "server": "remote"
             },
             {
-                "clash_mode": "direct",
-                "server": "dns_ali"
+                "clash_mode": "Direct",
+                "server": "local"
             },
             {
-                "clash_mode": "global",
-                "server": "dns_google"
-            },
-            {
-                "rule_set": "geosite-cn",
-                "server": "dns_ali"
+                "rule_set":
+                [
+                    "geosite-cn"
+                ],
+                "server": "local"
             }
         ],
-        "strategy": "prefer_ipv4",
-        "fakeip": {
-            "enabled": true,
-            "inet4_range": "28.0.0.1/8"
-        }
+        "strategy": "prefer_ipv4"
     },
-    "inbounds": [
+    "inbounds":
+    [
         {
-            "type": "mixed",
-            "tag": "mixed-in",
             "listen": "0.0.0.0",
-            "listen_port": 2080
+            "listen_port": 2080,
+            "tag": "mixed-in",
+            "type": "mixed",
+            "users":
+            []
         },
         {
-            "type": "tun",
-            "tag": "tun-in",
-            "interface_name": "singbox",
-            "listen": "0.0.0.0",
-            "listen_port": 53,
-            "inet4_address": "172.18.0.1/30",
+            "address":
+            [
+                "172.18.0.1/30",
+                "fdfe:dcba:9876::1/126"
+            ],
+            "route_address":
+            [
+                "0.0.0.0/1",
+                "128.0.0.0/1",
+                "::/1",
+                "8000::/1"
+            ],
+            "route_exclude_address":
+            [
+                "192.168.0.0/16",
+                "10.0.0.0/8",
+                "172.16.0.0/12",
+                "fc00::/7"
+            ],
             "auto_route": true,
-            "sniff": true
+            "strict_route": true,
+            "type": "tun"
         }
     ],
-    "outbounds": [
+    "outbounds":
+    [
         {
             "tag": "dns-out",
             "type": "dns"
@@ -98,7 +120,8 @@
         {
             "tag": "🚀 节点选择",
             "type": "selector",
-            "outbounds": [
+            "outbounds":
+            [
                 "🐸 手动切换",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -114,7 +137,8 @@
         {
             "tag": "🌍 国外媒体",
             "type": "selector",
-            "outbounds": [
+            "outbounds":
+            [
                 "🚀 节点选择",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -130,7 +154,8 @@
         {
             "tag": "📹 YouTube",
             "type": "selector",
-            "outbounds": [
+            "outbounds":
+            [
                 "🚀 节点选择",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -146,7 +171,8 @@
         {
             "tag": "🤖 OpenAI",
             "type": "selector",
-            "outbounds": [
+            "outbounds":
+            [
                 "🚀 节点选择",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -162,7 +188,8 @@
         {
             "tag": "🍀 Google",
             "type": "selector",
-            "outbounds": [
+            "outbounds":
+            [
                 "🚀 节点选择",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -178,7 +205,8 @@
         {
             "tag": "📲 Telegram",
             "type": "selector",
-            "outbounds": [
+            "outbounds":
+            [
                 "🚀 节点选择",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -194,7 +222,8 @@
         {
             "tag": "🎵 TikTok",
             "type": "selector",
-            "outbounds": [
+            "outbounds":
+            [
                 "🚀 节点选择",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -210,7 +239,8 @@
         {
             "tag": "🎥 Netflix",
             "type": "selector",
-            "outbounds": [
+            "outbounds":
+            [
                 "🚀 节点选择",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -226,7 +256,8 @@
         {
             "tag": "🪟 Microsoft",
             "type": "selector",
-            "outbounds": [
+            "outbounds":
+            [
                 "🚀 节点选择",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -242,7 +273,8 @@
         {
             "tag": "🍎 Apple",
             "type": "selector",
-            "outbounds": [
+            "outbounds":
+            [
                 "🚀 节点选择",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -258,7 +290,8 @@
         {
             "tag": "🐟 漏网之鱼",
             "type": "selector",
-            "outbounds": [
+            "outbounds":
+            [
                 "🚀 节点选择",
                 "🎯 全球直连"
             ],
@@ -271,7 +304,8 @@
         {
             "tag": "♻️ 自动选择",
             "type": "urltest",
-            "outbounds": [
+            "outbounds":
+            [
                 "{all}",
                 "🎯 全球直连"
             ],
@@ -281,7 +315,8 @@
         {
             "tag": "🐸 手动切换",
             "type": "selector",
-            "outbounds": [
+            "outbounds":
+            [
                 "{all}",
                 "🎯 全球直连"
             ],
@@ -290,12 +325,15 @@
         {
             "tag": "🇭🇰 香港节点",
             "type": "selector",
-            "outbounds": [
+            "outbounds":
+            [
                 "{all}",
                 "🎯 全球直连"
             ],
-            "filter": {
-                "include": [
+            "filter":
+            {
+                "include":
+                [
                     "🇭🇰|HK|hk|香港|港|HongKong"
                 ]
             }
@@ -303,12 +341,15 @@
         {
             "tag": "🇯🇵 日本节点",
             "type": "selector",
-            "outbounds": [
+            "outbounds":
+            [
                 "{all}",
                 "🎯 全球直连"
             ],
-            "filter": {
-                "include": [
+            "filter":
+            {
+                "include":
+                [
                     "🇯🇵|JP|jp|日本|日|Japan"
                 ]
             }
@@ -316,12 +357,15 @@
         {
             "tag": "🇨🇳 台湾节点",
             "type": "selector",
-            "outbounds": [
+            "outbounds":
+            [
                 "{all}",
                 "🎯 全球直连"
             ],
-            "filter": {
-                "include": [
+            "filter":
+            {
+                "include":
+                [
                     "🇹🇼|TW|tw|台湾|臺灣|台|Taiwan"
                 ]
             }
@@ -329,12 +373,15 @@
         {
             "tag": "🇰🇷 韩国节点",
             "type": "selector",
-            "outbounds": [
+            "outbounds":
+            [
                 "{all}",
                 "🎯 全球直连"
             ],
-            "filter": {
-                "include": [
+            "filter":
+            {
+                "include":
+                [
                     "🇰🇷|KR|kr|韩国|韩|South Korea"
                 ]
             }
@@ -342,12 +389,15 @@
         {
             "tag": "🇸🇬 狮城节点",
             "type": "selector",
-            "outbounds": [
+            "outbounds":
+            [
                 "{all}",
                 "🎯 全球直连"
             ],
-            "filter": {
-                "include": [
+            "filter":
+            {
+                "include":
+                [
                     "🇸🇬|SG|sg|新加坡|狮|Singapore"
                 ]
             }
@@ -355,12 +405,15 @@
         {
             "tag": "🇺🇲 美国节点",
             "type": "selector",
-            "outbounds": [
+            "outbounds":
+            [
                 "{all}",
                 "🎯 全球直连"
             ],
-            "filter": {
-                "include": [
+            "filter":
+            {
+                "include":
+                [
                     "🇺🇸|US|us|美国|美|United States"
                 ]
             }
@@ -370,10 +423,12 @@
             "type": "block"
         }
     ],
-    "route": {
+    "route":
+    {
         "auto_detect_interface": true,
         "final": "🐟 漏网之鱼",
-        "rules": [
+        "rules":
+        [
             {
                 "inbound": "tun-in",
                 "outbound": "dns-out"
@@ -395,7 +450,8 @@
                 "outbound": "🎯 全球直连"
             },
             {
-                "rule_set": [
+                "rule_set":
+                [
                     "stream_non_ip",
                     "stream_ip"
                 ],
@@ -406,15 +462,17 @@
                 "outbound": "🤖 OpenAI"
             },
             {
-                "rule_set": [
+                "rule_set":
+                [
                     "telegram_non_ip",
                     "telegram_ip"
                 ],
                 "outbound": "📲 Telegram"
             }
         ],
-        "rule_set": [
-             {
+        "rule_set":
+        [
+            {
                 "tag": "my_direct",
                 "type": "remote",
                 "format": "binary",
