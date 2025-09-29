@@ -34,77 +34,51 @@
         "servers":
         [
             {
-                "type": "udp",
                 "tag": "dns_bootstrap",
-                "address": "119.29.29.29:53",
-                "detour": "🎯 全球直连"
-            },
-            {
-                "type": "local",
-                "tag": "dns_system",
-                "detour": "🎯 全球直连"
-            },
-            {
-                "type": "https",
-                "tag": "dns_ali",
-                "server": "alidns.com",
-                "server_port": 443,
-                "path": "/dns-query",
+                "address": "119.29.29.29",
                 "detour": "🎯 全球直连",
-                "domain_resolver":
-                {
-                    "server": "dns_bootstrap",
-                    "strategy": "prefer_ipv4"
-                }
+                "address_strategy": "prefer_ipv4"
             },
             {
-                "type": "https",
+                "tag": "dns_system",
+                "address": "local",
+                "detour": "🎯 全球直连",
+                "address_strategy": "ipv4_only"
+            },
+            {
+                "tag": "dns_ali",
+                "address": "https://alidns.com/dns-query",
+                "address_resolver": "dns_bootstrap",
+                "address_strategy": "prefer_ipv4",
+                "strategy": "prefer_ipv4",
+                "detour": "🎯 全球直连"
+            },
+            {
                 "tag": "dns_google",
-                "server": "dns.google",
-                "server_port": 443,
-                "path": "/dns-query",
-                "detour": "♻️ 自动选择",
-                "domain_resolver":
-                {
-                    "server": "dns_bootstrap",
-                    "strategy": "ipv4_only"
-                },
-                "client_subnet": "1.0.1.0"
+                "address": "https://dns.google/dns-query",
+                "address_resolver": "dns_bootstrap",
+                "address_strategy": "ipv4_only",
+                "client_subnet": "1.0.1.0",
+                "detour": "♻️ 自动选择"
             },
             {
-                "type": "hosts",
                 "tag": "dns_success",
-                "mapping":
-                {}
+                "address": "rcode://success"
             },
             {
-                "type": "hosts",
                 "tag": "dns_refused",
-                "mapping":
-                {}
+                "address": "rcode://refused"
             },
             {
-                "type": "fakeip",
                 "tag": "dns_fakeip",
-                "inet4_range": "28.0.0.1/8",
-                "inet6_range": "fc00::/18"
-            },
-            {
-                "type": "hosts",
-                "tag": "dns_block",
-                "mapping":
-                {}
+                "address": "fakeip"
             }
         ],
         "rules":
         [
             {
                 "outbound": "any",
-                "action":
-                {
-                    "type": "route",
-                    "server": "dns_ali"
-                }
+                "server": "dns_ali"
             },
             {
                 "clash_mode": "direct",
@@ -113,11 +87,7 @@
                     "A",
                     "AAAA"
                 ],
-                "action":
-                {
-                    "type": "route",
-                    "server": "dns_ali"
-                }
+                "server": "dns_ali"
             },
             {
                 "clash_mode": "global",
@@ -126,19 +96,11 @@
                     "A",
                     "AAAA"
                 ],
-                "action":
-                {
-                    "type": "route",
-                    "server": "dns_google"
-                }
+                "server": "dns_google"
             },
             {
                 "rule_set": "geosite-cn",
-                "action":
-                {
-                    "type": "route",
-                    "server": "dns_ali"
-                }
+                "server": "dns_ali"
             },
             {
                 "type": "logical",
@@ -154,23 +116,15 @@
                     }
                 ],
                 "client_subnet": "114.114.114.114/24",
-                "action":
-                {
-                    "type": "route",
-                    "server": "dns_google"
-                }
+                "server": "dns_google"
             },
             {
                 "query_type":
                 [
                     "HTTPS"
                 ],
-                "action":
-                {
-                    "type": "route",
-                    "server": "dns_block",
-                    "disable_cache": true
-                }
+                "server": "dns_block",
+                "disable_cache": true
             },
             {
                 "query_type":
@@ -180,20 +134,22 @@
                     "CNAME"
                 ],
                 "invert": true,
-                "action":
-                {
-                    "type": "route",
-                    "server": "dns_refused",
-                    "disable_cache": true
-                }
+                "server": "dns_refused",
+                "disable_cache": true
             }
         ],
         "disable_cache": false,
         "disable_expire": false,
         "independent_cache": false,
         "reverse_mapping": false,
-        "default_server": "dns_google",
-        "default_strategy": "ipv4_only"
+        "strategy": "ipv4_only",
+        "final": "dns_google",
+        "fakeip":
+        {
+            "enabled": true,
+            "inet4_range": "28.0.0.1/8",
+            "inet6_range": "fc00::/18"
+        }
     },
     "inbounds":
     [
@@ -208,9 +164,7 @@
             "tag": "dns-in",
             "network": "udp",
             "listen": "::",
-            "listen_port": 53,
-            "override_address": "8.8.8.8",
-            "override_port": 53
+            "listen_port": 53
         },
         {
             "tag": "tun-in",
@@ -230,14 +184,6 @@
     ],
     "outbounds":
     [
-        {
-            "tag": "REJECT",
-            "type": "block"
-        },
-        {
-            "tag": "DIRECT",
-            "type": "direct"
-        },
         {
             "tag": "🚀 节点选择",
             "type": "selector",
@@ -408,17 +354,7 @@
             ],
             "default": "🎯 全球直连"
         },
-        {
-            "tag": "🛑 广告拦截",
-            "type": "selector",
-            "outbounds":
-            [
-                "REJECT",
-                "🎯 全球直连",
-                "🚀 节点选择"
-            ],
-            "default": "REJECT"
-        },
+        
         {
             "tag": "🐟 漏网之鱼",
             "type": "selector",
@@ -431,11 +367,7 @@
         },
         {
             "tag": "🎯 全球直连",
-            "type": "selector",
-            "outbounds":
-            [
-                "DIRECT"
-            ]
+            "type": "direct"
         },
         {
             "tag": "♻️ 自动选择",
@@ -662,16 +594,13 @@
         [
             {
                 "inbound": "dns-in",
-                "action":
-                {
-                    "type": "route",
-                    "outbound": "DIRECT"
-                }
+                "action": "dns"
             },
+
             {
                 "port": 853,
                 "network": "tcp",
-                "outbound": "REJECT"
+                "action": "block"
             },
             {
                 "port":
@@ -680,7 +609,7 @@
                     853
                 ],
                 "network": "udp",
-                "outbound": "REJECT"
+                "action": "block"
             },
             {
                 "clash_mode": "direct",
@@ -722,14 +651,14 @@
                     "reject_non_ip_no_drop",
                     "reject_domainset"
                 ],
-                "outbound": "🛑 广告拦截"
+                "action": "block"
             },
             {
                 "rule_set":
                 [
                     "reject_ip"
                 ],
-                "outbound": "🛑 广告拦截"
+                "action": "block"
             },
             {
                 "rule_set":
@@ -823,7 +752,7 @@
                 [
                     "global_non_ip"
                 ],
-                "outbound": "GLOBAL"
+                "outbound": "🚀 节点选择"
             },
             {
                 "rule_set":
