@@ -1,19 +1,15 @@
 {
-    "log":
-    {
+    "log": {
         "disabled": false,
         "level": "warn",
         "timestamp": true
     },
-    "experimental":
-    {
-        "cache_file":
-        {
+    "experimental": {
+        "cache_file": {
             "enabled": true,
             "store_fakeip": true
         },
-        "clash_api":
-        {
+        "clash_api": {
             "external_controller": "0.0.0.0:80",
             "external_ui": "dashboard",
             "secret": "",
@@ -21,26 +17,18 @@
             "default_mode": "rule"
         }
     },
-    "ntp":
-    {
+    "ntp": {
         "enabled": true,
         "server": "time.apple.com",
         "server_port": 123,
         "interval": "30m",
         "detour": "🎯 全球直连"
     },
-    "dns":
-    {
-        "servers":
-        [
+    "dns": {
+        "servers": [
             {
                 "tag": "dns_bootstrap",
                 "address": "119.29.29.29",
-                "detour": "🎯 全球直连"
-            },
-            {
-                "tag": "dns_system",
-                "address": "local",
                 "detour": "🎯 全球直连"
             },
             {
@@ -53,96 +41,38 @@
                 "tag": "dns_google",
                 "address": "https://dns.google/dns-query",
                 "address_resolver": "dns_bootstrap",
-                "client_subnet": "1.0.1.0",
                 "detour": "♻️ 自动选择"
             },
             {
                 "tag": "dns_fakeip",
-                "address": "fakeip",
-                "fakeip":
-                {
-                    "inet4_range": "28.0.0.1/8",
-                    "inet6_range": "fc00::/18"
-                }
-            },
-            {
-                "tag": "dns_block",
-                "address": "rcode://refused"
-            },
-            {
-                "tag": "dns_refused",
-                "address": "rcode://refused"
+                "address": "fakeip"
             }
         ],
-        "strategy": "ipv4_only",
-        "final": "dns_google",
-        "rules":
-        [
+        "rules": [
             {
                 "outbound": "any",
                 "server": "dns_ali"
             },
             {
                 "clash_mode": "direct",
-                "query_type":
-                [
-                    "A",
-                    "AAAA"
-                ],
                 "server": "dns_ali"
             },
             {
                 "clash_mode": "global",
-                "query_type":
-                [
-                    "A",
-                    "AAAA"
-                ],
                 "server": "dns_google"
             },
             {
                 "rule_set": "geosite-cn",
                 "server": "dns_ali"
-            },
-            {
-                "type": "logical",
-                "mode": "and",
-                "rules":
-                [
-                    {
-                        "rule_set": "geolocation-!cn",
-                        "invert": true
-                    },
-                    {
-                        "rule_set": "geoip-cn"
-                    }
-                ],
-                "client_subnet": "114.114.114.114/24",
-                "server": "dns_google"
-            },
-            {
-                "query_type":
-                [
-                    "HTTPS"
-                ],
-                "server": "dns_block",
-                "disable_cache": true
-            },
-            {
-                "query_type":
-                [
-                    "A",
-                    "AAAA",
-                    "CNAME"
-                ],
-                "invert": true,
-                "server": "dns_refused",
-                "disable_cache": true
             }
-        ]
+        ],
+        "strategy": "prefer_ipv4",
+        "fakeip": {
+            "enabled": true,
+            "inet4_range": "28.0.0.1/8"
+        }
     },
-    "inbounds":
-    [
+    "inbounds": [
         {
             "type": "mixed",
             "tag": "mixed-in",
@@ -150,35 +80,25 @@
             "listen_port": 2080
         },
         {
-            "type": "direct",
-            "tag": "dns-in",
-            "network": "udp",
-            "listen": "::",
-            "listen_port": 53
-        },
-        {
-            "tag": "tun-in",
             "type": "tun",
+            "tag": "tun-in",
             "interface_name": "singbox",
-            "address":
-            [
-                "172.18.0.1/30",
-                "fdfe:dcba:9876::1/126"
-            ],
-            "stack": "mixed",
+            "listen": "0.0.0.0",
+            "listen_port": 53,
+            "inet4_address": "172.18.0.1/30",
             "auto_route": true,
-            "strict_route": true,
-            "sniff": true,
-            "sniff_override_destination": false
+            "sniff": true
         }
     ],
-    "outbounds":
-    [
+    "outbounds": [
+        {
+            "tag": "dns-out",
+            "type": "dns"
+        },
         {
             "tag": "🚀 节点选择",
             "type": "selector",
-            "outbounds":
-            [
+            "outbounds": [
                 "🐸 手动切换",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -194,8 +114,7 @@
         {
             "tag": "🌍 国外媒体",
             "type": "selector",
-            "outbounds":
-            [
+            "outbounds": [
                 "🚀 节点选择",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -211,8 +130,7 @@
         {
             "tag": "📹 YouTube",
             "type": "selector",
-            "outbounds":
-            [
+            "outbounds": [
                 "🚀 节点选择",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -228,8 +146,7 @@
         {
             "tag": "🤖 OpenAI",
             "type": "selector",
-            "outbounds":
-            [
+            "outbounds": [
                 "🚀 节点选择",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -245,8 +162,7 @@
         {
             "tag": "🍀 Google",
             "type": "selector",
-            "outbounds":
-            [
+            "outbounds": [
                 "🚀 节点选择",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -262,8 +178,7 @@
         {
             "tag": "📲 Telegram",
             "type": "selector",
-            "outbounds":
-            [
+            "outbounds": [
                 "🚀 节点选择",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -279,8 +194,7 @@
         {
             "tag": "🎵 TikTok",
             "type": "selector",
-            "outbounds":
-            [
+            "outbounds": [
                 "🚀 节点选择",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -296,8 +210,7 @@
         {
             "tag": "🎥 Netflix",
             "type": "selector",
-            "outbounds":
-            [
+            "outbounds": [
                 "🚀 节点选择",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -313,8 +226,7 @@
         {
             "tag": "🪟 Microsoft",
             "type": "selector",
-            "outbounds":
-            [
+            "outbounds": [
                 "🚀 节点选择",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -330,8 +242,7 @@
         {
             "tag": "🍎 Apple",
             "type": "selector",
-            "outbounds":
-            [
+            "outbounds": [
                 "🚀 节点选择",
                 "♻️ 自动选择",
                 "🇭🇰 香港节点",
@@ -347,8 +258,7 @@
         {
             "tag": "🐟 漏网之鱼",
             "type": "selector",
-            "outbounds":
-            [
+            "outbounds": [
                 "🚀 节点选择",
                 "🎯 全球直连"
             ],
@@ -361,243 +271,112 @@
         {
             "tag": "♻️ 自动选择",
             "type": "urltest",
-            "outbounds":
-            [
+            "outbounds": [
                 "{all}",
                 "🎯 全球直连"
             ],
-            "filter":
-            [
-                {
-                    "action": "exclude",
-                    "keywords":
-                    [
-                        "网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点"
-                    ]
-                }
-            ],
             "url": "http://www.gstatic.com/generate_204",
-            "interval": "10m",
-            "tolerance": 50
+            "interval": "10m"
         },
         {
             "tag": "🐸 手动切换",
             "type": "selector",
-            "outbounds":
-            [
+            "outbounds": [
                 "{all}",
                 "🎯 全球直连"
-            ],
-            "filter":
-            [
-                {
-                    "action": "exclude",
-                    "keywords":
-                    [
-                        "网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点"
-                    ]
-                }
             ],
             "default": "🎯 全球直连"
         },
         {
             "tag": "🇭🇰 香港节点",
             "type": "selector",
-            "outbounds":
-            [
+            "outbounds": [
                 "{all}",
                 "🎯 全球直连"
             ],
-            "filter":
-            [
-                {
-                    "action": "include",
-                    "keywords":
-                    [
-                        "🇭🇰|HK|hk|香港|港|HongKong"
-                    ]
-                },
-                {
-                    "action": "exclude",
-                    "keywords":
-                    [
-                        "网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点"
-                    ]
-                }
-            ]
+            "filter": {
+                "include": [
+                    "🇭🇰|HK|hk|香港|港|HongKong"
+                ]
+            }
         },
         {
             "tag": "🇯🇵 日本节点",
             "type": "selector",
-            "outbounds":
-            [
+            "outbounds": [
                 "{all}",
                 "🎯 全球直连"
             ],
-            "filter":
-            [
-                {
-                    "action": "include",
-                    "keywords":
-                    [
-                        "🇯🇵|JP|jp|日本|日|Japan"
-                    ]
-                },
-                {
-                    "action": "exclude",
-                    "keywords":
-                    [
-                        "网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点"
-                    ]
-                }
-            ]
+            "filter": {
+                "include": [
+                    "🇯🇵|JP|jp|日本|日|Japan"
+                ]
+            }
         },
         {
             "tag": "🇨🇳 台湾节点",
             "type": "selector",
-            "outbounds":
-            [
+            "outbounds": [
                 "{all}",
                 "🎯 全球直连"
             ],
-            "filter":
-            [
-                {
-                    "action": "include",
-                    "keywords":
-                    [
-                        "🇹🇼|TW|tw|台湾|臺灣|台|Taiwan"
-                    ]
-                },
-                {
-                    "action": "exclude",
-                    "keywords":
-                    [
-                        "网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点"
-                    ]
-                }
-            ]
+            "filter": {
+                "include": [
+                    "🇹🇼|TW|tw|台湾|臺灣|台|Taiwan"
+                ]
+            }
         },
         {
             "tag": "🇰🇷 韩国节点",
             "type": "selector",
-            "outbounds":
-            [
+            "outbounds": [
                 "{all}",
                 "🎯 全球直连"
             ],
-            "filter":
-            [
-                {
-                    "action": "include",
-                    "keywords":
-                    [
-                        "🇰🇷|KR|kr|韩国|韩|South Korea"
-                    ]
-                },
-                {
-                    "action": "exclude",
-                    "keywords":
-                    [
-                        "网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点"
-                    ]
-                }
-            ]
+            "filter": {
+                "include": [
+                    "🇰🇷|KR|kr|韩国|韩|South Korea"
+                ]
+            }
         },
         {
             "tag": "🇸🇬 狮城节点",
             "type": "selector",
-            "outbounds":
-            [
+            "outbounds": [
                 "{all}",
                 "🎯 全球直连"
             ],
-            "filter":
-            [
-                {
-                    "action": "include",
-                    "keywords":
-                    [
-                        "🇸🇬|SG|sg|新加坡|狮|Singapore"
-                    ]
-                },
-                {
-                    "action": "exclude",
-                    "keywords":
-                    [
-                        "网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点"
-                    ]
-                }
-            ]
+            "filter": {
+                "include": [
+                    "🇸🇬|SG|sg|新加坡|狮|Singapore"
+                ]
+            }
         },
         {
             "tag": "🇺🇲 美国节点",
             "type": "selector",
-            "outbounds":
-            [
+            "outbounds": [
                 "{all}",
                 "🎯 全球直连"
             ],
-            "filter":
-            [
-                {
-                    "action": "include",
-                    "keywords":
-                    [
-                        "🇺🇸|US|us|美国|美|United States"
-                    ]
-                },
-                {
-                    "action": "exclude",
-                    "keywords":
-                    [
-                        "网站|地址|剩余|过期|时间|有效|网址|禁止|邮箱|发布|客服|订阅|节点"
-                    ]
-                }
-            ]
+            "filter": {
+                "include": [
+                    "🇺🇸|US|us|美国|美|United States"
+                ]
+            }
         },
         {
-            "tag": "GLOBAL",
-            "type": "selector",
-            "outbounds":
-            [
-                "♻️ 自动选择",
-                "🎯 全球直连",
-                "🇭🇰 香港节点",
-                "🇯🇵 日本节点",
-                "🇰🇷 韩国节点",
-                "🇨🇳 台湾节点",
-                "🇸🇬 狮城节点",
-                "🇺🇲 美国节点",
-                "🐸 手动切换"
-            ],
-            "default": "♻️ 自动选择"
+            "tag": "block",
+            "type": "block"
         }
     ],
-    "route":
-    {
+    "route": {
         "auto_detect_interface": true,
-        "default_mark": 10,
         "final": "🐟 漏网之鱼",
-        "rules":
-        [
+        "rules": [
             {
-                "inbound": "dns-in",
+                "inbound": "tun-in",
                 "outbound": "dns-out"
-            },
-            {
-                "port": 853,
-                "network": "tcp",
-                "outbound": "block"
-            },
-            {
-                "port":
-                [
-                    443,
-                    853
-                ],
-                "network": "udp",
-                "outbound": "block"
             },
             {
                 "clash_mode": "direct",
@@ -608,191 +387,34 @@
                 "outbound": "🚀 节点选择"
             },
             {
-                "port":
-                [
-                    123,
-                    34239,
-                    8636,
-                    54658,
-                    55008
-                ],
+                "rule_set": "geosite-cn",
                 "outbound": "🎯 全球直连"
             },
             {
-                "domain":
-                [
-                    "linux.do"
-                ],
-                "outbound": "🚀 节点选择"
-            },
-            {
-                "domain_keyword":
-                [
-                    "codeium.com"
-                ],
-                "outbound": "🚀 节点选择"
-            },
-            {
-                "rule_set":
-                [
-                    "reject_non_ip",
-                    "reject_non_ip_no_drop",
-                    "reject_domainset"
-                ],
-                "outbound": "block"
-            },
-            {
-                "rule_set":
-                [
-                    "reject_ip"
-                ],
-                "outbound": "block"
-            },
-            {
-                "rule_set":
-                [
-                    "my_direct"
-                ],
+                "rule_set": "geoip-cn",
                 "outbound": "🎯 全球直连"
             },
             {
-                "rule_set":
-                [
-                    "cdn_domainset",
-                    "cdn_non_ip"
-                ],
-                "outbound": "🚀 节点选择"
-            },
-            {
-                "rule_set":
-                [
-                    "stream_non_ip"
-                ],
-                "outbound": "🌍 国外媒体"
-            },
-            {
-                "rule_set":
-                [
-                    "ai_non_ip"
-                ],
-                "outbound": "🤖 OpenAI"
-            },
-            {
-                "rule_set":
-                [
-                    "telegram_non_ip"
-                ],
-                "outbound": "📲 Telegram"
-            },
-            {
-                "rule_set":
-                [
-                    "apple_cdn",
-                    "apple_cn_non_ip"
-                ],
-                "outbound": "🎯 全球直连"
-            },
-            {
-                "rule_set":
-                [
-                    "microsoft_cdn_non_ip"
-                ],
-                "outbound": "🎯 全球直连"
-            },
-            {
-                "rule_set":
-                [
-                    "download_domainset",
-                    "download_non_ip"
-                ],
-                "outbound": "🚀 节点选择"
-            },
-            {
-                "rule_set":
-                [
-                    "apple_services"
-                ],
-                "outbound": "🍎 Apple"
-            },
-            {
-                "rule_set":
-                [
-                    "microsoft_non_ip"
-                ],
-                "outbound": "🪟 Microsoft"
-            },
-            {
-                "rule_set":
-                [
-                    "global_non_ip"
-                ],
-                "outbound": "🚀 节点选择"
-            },
-            {
-                "rule_set":
-                [
-                    "neteasemusic_non_ip"
-                ],
-                "outbound": "🎯 全球直连"
-            },
-            {
-                "rule_set":
-                [
-                    "global_non_ip"
-                ],
-                "outbound": "🚀 节点选择"
-            },
-            {
-                "rule_set":
-                [
-                    "domestic_non_ip",
-                    "lan_non_ip",
-                    "direct_non_ip"
-                ],
-                "outbound": "🎯 全球直连"
-            },
-            {
-                "rule_set":
-                [
-                    "telegram_ip"
-                ],
-                "outbound": "📲 Telegram"
-            },
-            {
-                "rule_set":
-                [
+                "rule_set": [
+                    "stream_non_ip",
                     "stream_ip"
                 ],
                 "outbound": "🌍 国外媒体"
             },
             {
-                "rule_set":
-                [
-                    "neteasemusic_ip"
-                ],
-                "outbound": "🎯 全球直连"
+                "rule_set": "ai_non_ip",
+                "outbound": "🤖 OpenAI"
             },
             {
-                "rule_set":
-                [
-                    "lan_ip",
-                    "domestic_ip",
-                    "china_ip"
+                "rule_set": [
+                    "telegram_non_ip",
+                    "telegram_ip"
                 ],
-                "outbound": "🎯 全球直连"
-            },
-            {
-                "rule_set":
-                [
-                    "geosite-cn",
-                    "geoip-cn"
-                ],
-                "outbound": "🎯 全球直连"
+                "outbound": "📲 Telegram"
             }
         ],
-        "rule_set":
-        [
-            {
+        "rule_set": [
+             {
                 "tag": "my_direct",
                 "type": "remote",
                 "format": "binary",
